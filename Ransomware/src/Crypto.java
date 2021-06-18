@@ -12,10 +12,41 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-public class crypto {
+public class Crypto {
     private static final String ALGORITHM = "AES";
     private static final String aesKey = "1111111111111111";
-    //String SE = System.getProperty("os.name").toLowerCase();
+
+    public static void encrypt(File inputFile) throws Exception {
+        String liste[] = inputFile.list();      
+     
+        if (liste != null) {         
+            for (int i = 0; i < liste.length; i++) {
+
+                if (new File(inputFile + "\\\\" + liste[i]).isDirectory()) {
+                    encrypt(new File(inputFile + "\\\\" + liste[i]));
+                } else{
+                    encryptFichier(aesKey, new File(inputFile + "/" + liste[i]));
+                }
+            }
+        }
+    }
+
+    public static void decrypt(File inputFile) throws Exception {
+        String liste[] = inputFile.list();      
+     
+        if (liste != null) {         
+            for (int i = 0; i < liste.length; i++) {
+
+                if (new File(inputFile + "\\\\" + liste[i]).isDirectory()) {
+                    decrypt(new File(inputFile + "\\\\" + liste[i]));
+                } else{
+                    decryptFichier(aesKey, new File(inputFile + "/" + liste[i]));
+                }
+            }
+        }
+    }
+
+
  
     //fonction permetant l'encryptage d'un fichier à l'aide d'un clef AES
     public static void encryptFichier(String key, File inputFile) throws Exception {
@@ -26,36 +57,6 @@ public class crypto {
     public static void decryptFichier(String key, File inputFile)
             throws Exception {
         doCrypto(Cipher.DECRYPT_MODE, key, inputFile);
-    }
-
-    //fonction utilisant la fonction encyptFichier sur un dossier 
-    public static void encryptDossier(File folder) throws Exception{
-        String liste[] = folder.list();      
-     
-        if (liste != null) {         
-            for (int i = 0; i < liste.length; i++) {
-                encryptFichier(aesKey, new File(folder + "/" + liste[i]));
-            }
-        }
-    }
-
-    //fonction utilisant la fonction decyptFichier sur un dossier 
-    public static void decryptDossier(File folder) throws Exception{
-        String liste[] = folder.list();      
-     
-        if (liste != null) {         
-            for (int i = 0; i < liste.length; i++) {
-                decryptFichier(aesKey, new File(folder + "/" + liste[i]));
-            }
-        }
-    }
-
-    public static void encryptLinux(){
-        //écrire le code pour encrypter les dossier Linux
-    }
-
-    public static void decryptLinux(){
-        //écrire le code pour decrypter les dossier Linux
     }
 
     //fonction principal pour le encryptage et le decryptage d'un fichier, elle change sa fonctionnalité en fonction du cipherMode séléctioné  
@@ -77,3 +78,4 @@ public class crypto {
         outputStream.close();
     }
 }
+

