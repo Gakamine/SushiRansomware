@@ -1,0 +1,6 @@
+CREATE TABLE ransomware(
+    id SERIAL PRIMARY KEY,
+    encrypt_key TEXT,
+    key TEXT
+);
+
