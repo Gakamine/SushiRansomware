@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for fichier in /home/$USER/Téléchargements/*
+do
+  hash=$(md5sum $fichier | cut -d' ' -f1)
+  sign=$(wget -qO- --post-data "query=get_info&hash=$hash" https://mb-api.abuse.ch/api/v1 | jq -r '.query_status')
+  if [ $sign == "ok" ] ; then
+    echo  $(date)"- Ransomware détécté ; Suppression du fichier infecté :" $fichier >> /var/log/ransomware
+    rm $fichier
+  fi      
+done

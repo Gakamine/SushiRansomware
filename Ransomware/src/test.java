@@ -1,26 +1,26 @@
-import java.io.*;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import org.json.JSONObject;
 
-public class Main {
-   public static void main(String args[]) {
-      JSONParser jsonP = new JSONParser();
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.*;
+
+class JsonEncodeDemo {
+
+   public static void main(String[] args) throws URISyntaxException, IOException {
       try {
-         JSONObject jsonO = (JSONObject)jsonP.parse(new FileReader("C:/sushi.json"));
-     
-         String cle = (String) jsonO.get("clé");
-         String signature = (String) jsonO.get("signature");
+         URL url = new URL("http://sushi.joly-antoine.fr:3000");
+         BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+         String string = br.readLine();
+         JSONObject json = new JSONObject(string);
 
-         System.out.println("cle :"+ cle);
-         System.out.println("signature: "+ signature);
-      } catch (FileNotFoundException e) {
-         e.printStackTrace();
-      } catch (IOException e) {
-         e.printStackTrace();
-      } catch (ParseException e) {
-         e.printStackTrace();
+         String key = json.getString("encryption_key");
+         String hash = json.getString("hash");
+
+      } catch (Exception ex) {
+         ex.printStackTrace();
       }
-   }
-}
 
+   }
+
+}
